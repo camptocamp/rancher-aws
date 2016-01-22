@@ -68,6 +68,10 @@
       "Type": "String",
       "Description": "Connection draining ensures that the load balancer completes serving all in-flight requests made to a registered instance when the instance is deregistered or becomes unhealthy",
       "Default": 30
+    },
+    "ELBSslARN": {
+      "Description": "SSL certificate full ARN",
+      "Type": "String"
     }
   },
   "Resources": {
@@ -209,14 +213,15 @@
           {
             "InstancePort": 80,
             "LoadBalancerPort": 80,
-            "Protocol": "tcp",
-            "InstanceProtocol": "tcp"
+            "Protocol": "http",
+            "InstanceProtocol": "http"
           },
           {
-            "InstancePort": 443,
+            "InstancePort": 80,
             "LoadBalancerPort": 443,
-            "Protocol": "tcp",
-            "InstanceProtocol": "tcp"
+            "Protocol": "https",
+            "InstanceProtocol": "http",
+            "SSLCertificateId": { "Ref": "ELBSslARN" }
           }
         ],
         "SecurityGroups": [
